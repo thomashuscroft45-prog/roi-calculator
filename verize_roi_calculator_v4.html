@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSL Funnel ROI Calculator - Verize Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a2a4e 0%, #2d3e5f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* INPUT PANEL */
+        .input-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            overflow: hidden;
+        }
+
+        .input-panel h2 {
+            font-size: 18px;
+            color: white;
+            margin-bottom: 0;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1a2a4e 0%, #2d3e5f 100%);
+            padding: 20px 25px;
+        }
+
+        .input-section {
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .input-section:last-child {
+            border-bottom: none;
+        }
+
+        .input-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #FF6B35;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-section h3::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #FF6B35;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .currency-symbol, .percentage-symbol {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF6B35;
+            min-width: 20px;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 11px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        /* RESULTS PANEL */
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .results-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .results-section h2 {
+            font-size: 18px;
+            color: #1a2a4e;
+            margin-bottom: 20px;
+            font-weight: 700;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        /* ROI HIGHLIGHT SECTION */
+        .roi-highlight {
+            background: linear-gradient(135deg, #FF6B35 0%, #e55a24 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roi-highlight::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .roi-highlight h2 {
+            font-size: 20px;
+            color: white;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: none;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .roi-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .roi-metric {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px 20px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .roi-metric-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .roi-metric-value {
+            font-size: 44px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* TABLE STYLES */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+        .results-table th {
+            background: #f9f9f9;
+            padding: 12px;
+            text-align: right;
+            font-size: 12px;
+            font-weight: 700;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #FF6B35;
+        }
+
+        .results-table th:first-child {
+            text-align: left;
+        }
+
+        .results-table td {
+            padding: 14px 12px;
+            text-align: right;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+        }
+
+        .results-table td:first-child {
+            text-align: left;
+            color: #1a2a4e;
+            font-weight: 700;
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .results-table tr.total-row {
+            background: linear-gradient(135deg, #1a2a4e 0%, #2d3e5f 100%);
+            color: white;
+            font-weight: 700;
+        }
+
+        .results-table tr.total-row td {
+            color: white;
+            border-bottom: none;
+            padding: 14px 12px;
+        }
+
+        .results-table tr.total-row td:first-child {
+            color: white;
+        }
+
+        .results-table .value-highlight {
+            color: #FF6B35;
+            font-weight: 700;
+        }
+
+        /* METRICS GRID */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #1a2a4e 0%, #2d3e5f 100%);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            border-color: #FF6B35;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FF6B35;
+            line-height: 1.2;
+        }
+
+        /* BREAKDOWN GRID */
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .breakdown-item {
+            background: #f9f9f9;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #FF6B35;
+        }
+
+        .breakdown-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .breakdown-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a2a4e;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-section h3 {
+            font-size: 18px;
+            color: #1a2a4e;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #FF6B35;
+            color: white;
+            padding: 16px 50px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .cta-button:hover {
+            background: #e55a24;
+            transform: translateY(-2px);
+        }
+
+        .cta-note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .input-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .roi-highlight {
+                padding: 30px 20px;
+            }
+
+            .roi-metric-value {
+                font-size: 32px;
+            }
+
+            .results-table {
+                font-size: 12px;
+            }
+
+            .results-table th, .results-table td {
+                padding: 8px;
+            }
+
+            .metric-value {
+                font-size: 20px;
+            }
+
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>VSL Funnel ROI Calculator</h1>
+            <p>See Your 90-Day Performance & Revenue Potential</p>
+        </div>
+
+        <div class="content">
+            <!-- INPUT PANEL -->
+            <div class="input-panel">
+                <h2>Your Numbers</h2>
+
+                <!-- Campaign Section -->
+                <div class="input-section">
+                    <h3>Campaign Investment</h3>
+                    <div class="input-group">
+                        <label>Monthly Ad Spend</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="adSpend" value="10000" min="0" step="500">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Cost Per Lead</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="cpl" value="50" min="0" step="5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funnel Rates Section -->
+                <div class="input-section">
+                    <h3>Funnel Conversion Rates</h3>
+                    <div class="input-group">
+                        <label>Lead to Call %</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="leadToCall" value="40" min="0" max="100" step="1">
+                            <span class="percentage-symbol">%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Call to Qualified %</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="callQualified" value="60" min="0" max="100" step="1">
+                            <span class="percentage-symbol">%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Show-Up Rate %</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="showUpRate" value="70" min="0" max="100" step="1">
+                            <span class="percentage-symbol">%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Close Rate %</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="closeRate" value="20" min="0" max="100" step="1">
+                            <span class="percentage-symbol">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Deal Value Section -->
+                <div class="input-section">
+                    <h3>Client Deal Value</h3>
+                    <div class="input-group">
+                        <label>Average Cash Per Client</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="dealValue" value="6000" min="0" step="1000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Structure Section -->
+                <div class="input-section">
+                    <h3>Your Service Investment</h3>
+                    <div class="input-group">
+                        <label>Upfront Fee (90 Days)</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="serviceFee" value="4000" min="0" step="500">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Revenue Share %</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="revenueShare" value="10" min="0" max="100" step="0.5">
+                            <span class="percentage-symbol">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS PANEL -->
+            <div class="results-panel">
+                <!-- ROI HIGHLIGHT - MOVED TO TOP -->
+                <div class="roi-highlight">
+                    <h2>Your 90-Day ROI</h2>
+                    <div class="roi-metrics">
+                        <div class="roi-metric">
+                            <div class="roi-metric-label">ROAS</div>
+                            <div class="roi-metric-value" id="roas">0x</div>
+                        </div>
+                        <div class="roi-metric">
+                            <div class="roi-metric-label">ROI</div>
+                            <div class="roi-metric-value" id="roi">0%</div>
+                        </div>
+                        <div class="roi-metric">
+                            <div class="roi-metric-label">Cost Per Qualified Call</div>
+                            <div class="roi-metric-value" id="costPerQualified">$0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Month by Month -->
+                <div class="results-section">
+                    <h2>Month-by-Month Breakdown</h2>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Ad Spend</th>
+                                <th>Leads</th>
+                                <th>Calls</th>
+                                <th>Qualified</th>
+                                <th>Show-Ups</th>
+                                <th>Closed</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthTable">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 90-Day Campaign Flow -->
+                <div class="results-section">
+                    <h2>90-Day Complete Campaign Flow</h2>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ad Spend</td>
+                                <td class="value-highlight" id="totalAdSpend">$0</td>
+                            </tr>
+                            <tr>
+                                <td>Leads Generated</td>
+                                <td id="totalLeads">0</td>
+                            </tr>
+                            <tr>
+                                <td>Calls Booked</td>
+                                <td id="callsBooked">0</td>
+                            </tr>
+                            <tr>
+                                <td>Qualified</td>
+                                <td id="qualified">0</td>
+                            </tr>
+                            <tr>
+                                <td>Show-Ups</td>
+                                <td id="showUps">0</td>
+                            </tr>
+                            <tr>
+                                <td>Closed Deals</td>
+                                <td class="value-highlight" id="closedDeals">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Financial Performance -->
+                <div class="results-section">
+                    <h2>Financial Performance</h2>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Revenue</td>
+                                <td class="value-highlight" id="totalRevenue">$0</td>
+                            </tr>
+                            <tr>
+                                <td>Total Investment</td>
+                                <td id="totalInvestment">$0</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>Net Profit</td>
+                                <td id="netProfit">$0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Investment Breakdown -->
+                <div class="results-section">
+                    <h2>Investment Breakdown</h2>
+                    <div class="breakdown-grid">
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Ad Spend (90 Days)</div>
+                            <div class="breakdown-value" id="invAdSpend">$0</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Service Fee</div>
+                            <div class="breakdown-value" id="invServiceFee">$0</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Revenue Share</div>
+                            <div class="breakdown-value" id="invRevenueShare">$0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Metrics -->
+                <div class="results-section">
+                    <h2>Additional Metrics</h2>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cost Per Lead (CPL)</td>
+                                <td id="metricCPL">$0</td>
+                            </tr>
+                            <tr>
+                                <td>Cost Per Call (CPC)</td>
+                                <td id="metricCPC">$0</td>
+                            </tr>
+                            <tr>
+                                <td>Profit Margin</td>
+                                <td id="metricMargin">0%</td>
+                            </tr>
+                            <tr>
+                                <td>Revenue Per Closed Deal</td>
+                                <td id="metricRPD">$0</td>
+                            </tr>
+                            <tr>
+                                <td>Profit Per Closed Deal</td>
+                                <td id="metricPPD">$0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h3>Ready to Build Your Complete Funnel?</h3>
+            <button class="cta-button" onclick="bookCall()">Book Your Free Strategy Call</button>
+            <p class="cta-note">We guarantee 10-15 new qualified clients per month—or you don't pay.</p>
+        </div>
+    </div>
+
+    <script>
+        const inputs = ['adSpend', 'cpl', 'leadToCall', 'callQualified', 'showUpRate', 'closeRate', 'dealValue', 'serviceFee', 'revenueShare'];
+
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateResults);
+        });
+
+        function calculateResults() {
+            const adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            const cpl = parseFloat(document.getElementById('cpl').value) || 0;
+            const leadToCall = parseFloat(document.getElementById('leadToCall').value) || 0;
+            const callQualified = parseFloat(document.getElementById('callQualified').value) || 0;
+            const showUpRate = parseFloat(document.getElementById('showUpRate').value) || 0;
+            const closeRate = parseFloat(document.getElementById('closeRate').value) || 0;
+            const dealValue = parseFloat(document.getElementById('dealValue').value) || 0;
+            const serviceFee = parseFloat(document.getElementById('serviceFee').value) || 0;
+            const revenueShare = parseFloat(document.getElementById('revenueShare').value) || 0;
+
+            // Generate month-by-month table
+            generateMonthTable(adSpend, cpl, leadToCall, callQualified, showUpRate, closeRate, dealValue);
+
+            // 90-Day Calculations
+            const totalAdSpend = adSpend * 3;
+            const totalLeads = Math.floor(totalAdSpend / cpl);
+            const callsBooked = Math.floor(totalLeads * (leadToCall / 100));
+            const qualified = Math.floor(callsBooked * (callQualified / 100));
+            const showUps = Math.floor(qualified * (showUpRate / 100));
+            const closedDeals = Math.floor(showUps * (closeRate / 100));
+            const totalRevenue = closedDeals * dealValue;
+            const totalRevenueShare = totalRevenue * (revenueShare / 100);
+            const totalInvestment = totalAdSpend + serviceFee + totalRevenueShare;
+            const netProfit = totalRevenue - totalInvestment;
+            const roas = totalAdSpend > 0 ? (totalRevenue / totalAdSpend).toFixed(1) : 0;
+            const roi = totalInvestment > 0 ? Math.round(((totalRevenue - totalInvestment) / totalInvestment) * 100) : 0;
+            const costPerQualified = qualified > 0 ? (totalAdSpend / qualified).toFixed(0) : 0;
+            const margin = totalRevenue > 0 ? Math.round((netProfit / totalRevenue) * 100) : 0;
+
+            // Update Display - ROI Section
+            document.getElementById('roas').textContent = roas + 'x';
+            document.getElementById('roi').textContent = roi + '%';
+            document.getElementById('costPerQualified').textContent = '$' + costPerQualified;
+
+            // Update Display - Campaign Flow
+            document.getElementById('totalAdSpend').textContent = '$' + totalAdSpend.toLocaleString();
+            document.getElementById('totalLeads').textContent = totalLeads.toLocaleString();
+            document.getElementById('callsBooked').textContent = callsBooked.toLocaleString();
+            document.getElementById('qualified').textContent = qualified.toLocaleString();
+            document.getElementById('showUps').textContent = showUps.toLocaleString();
+            document.getElementById('closedDeals').textContent = closedDeals.toLocaleString();
+
+            // Update Display - Financial
+            document.getElementById('totalRevenue').textContent = '$' + totalRevenue.toLocaleString();
+            document.getElementById('totalInvestment').textContent = '$' + Math.round(totalInvestment).toLocaleString();
+            document.getElementById('netProfit').textContent = '$' + Math.round(netProfit).toLocaleString();
+
+            // Update Display - Investment Breakdown
+            document.getElementById('invAdSpend').textContent = '$' + totalAdSpend.toLocaleString();
+            document.getElementById('invServiceFee').textContent = '$' + serviceFee.toLocaleString();
+            document.getElementById('invRevenueShare').textContent = '$' + Math.round(totalRevenueShare).toLocaleString();
+
+            // Additional Metrics
+            const costPerCall = callsBooked > 0 ? (totalAdSpend / callsBooked).toFixed(0) : 0;
+            const revenuePerDeal = closedDeals > 0 ? dealValue : 0;
+            const profitPerDeal = closedDeals > 0 ? (netProfit / closedDeals).toFixed(0) : 0;
+
+            document.getElementById('metricCPL').textContent = '$' + cpl;
+            document.getElementById('metricCPC').textContent = '$' + costPerCall;
+            document.getElementById('metricMargin').textContent = margin + '%';
+            document.getElementById('metricRPD').textContent = '$' + revenuePerDeal.toLocaleString();
+            document.getElementById('metricPPD').textContent = '$' + profitPerDeal;
+        }
+
+        function generateMonthTable(adSpend, cpl, leadToCall, callQualified, showUpRate, closeRate, dealValue) {
+            const tbody = document.getElementById('monthTable');
+            tbody.innerHTML = '';
+
+            let totalLeads = 0, totalCalls = 0, totalQualified = 0, totalShowUps = 0, totalClosed = 0, totalRev = 0;
+
+            for (let month = 1; month <= 3; month++) {
+                const leads = Math.floor(adSpend / cpl);
+                const calls = Math.floor(leads * (leadToCall / 100));
+                const qualified = Math.floor(calls * (callQualified / 100));
+                const showUps = Math.floor(qualified * (showUpRate / 100));
+                const closed = Math.floor(showUps * (closeRate / 100));
+                const revenue = closed * dealValue;
+
+                totalLeads += leads;
+                totalCalls += calls;
+                totalQualified += qualified;
+                totalShowUps += showUps;
+                totalClosed += closed;
+                totalRev += revenue;
+
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>Month ${month}</td>
+                    <td>$${adSpend.toLocaleString()}</td>
+                    <td>${leads}</td>
+                    <td>${calls}</td>
+                    <td>${qualified}</td>
+                    <td>${showUps}</td>
+                    <td>${closed}</td>
+                    <td>$${revenue.toLocaleString()}</td>
+                `;
+            }
+
+            const totalRow = tbody.insertRow();
+            totalRow.classList.add('total-row');
+            totalRow.innerHTML = `
+                <td>Total (90 Days)</td>
+                <td>$${(adSpend * 3).toLocaleString()}</td>
+                <td>${totalLeads}</td>
+                <td>${totalCalls}</td>
+                <td>${totalQualified}</td>
+                <td>${totalShowUps}</td>
+                <td>${totalClosed}</td>
+                <td>$${totalRev.toLocaleString()}</td>
+            `;
+        }
+
+        function bookCall() {
+            window.location.href = 'https://calendly.com/your-booking-link';
+        }
+
+        // Calculate on page load
+        calculateResults();
+    </script>
+</body>
+</html>
