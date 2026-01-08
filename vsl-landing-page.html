@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch This Free Training - Transform Your Business</title>
+    <meta name="description" content="Discover the proven strategies that are transforming businesses. Watch this free training video now.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Video container aspect ratio */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in-up-delay-1 {
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .fade-in-up-delay-2 {
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .fade-in-up-delay-3 {
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        /* CTA Button Pulse Animation */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .cta-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(234, 88, 12, 0.4);
+        }
+
+        .cta-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Checkmark icon */
+        .checkmark {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .checkmark::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Exit Intent Popup */
+        .exit-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exit-popup.show {
+            display: flex;
+        }
+
+        .exit-popup-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .exit-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .exit-popup-close:hover {
+            color: #000;
+        }
+
+        /* Progress bar for video watching */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* Lock icon for CTA */
+        .lock-icon {
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Main Container -->
+    <div class="min-h-screen py-8 md:py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Hero Section -->
+            <div class="text-center mb-8 md:mb-12 fade-in-up">
+                <!-- Headline -->
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight mb-4 md:mb-6">
+                    The 3 Cash Flow Mistakes Killing Construction Companies
+                    <span class="text-orange-600">(And How Your CFO Should Be Preventing Them)</span>
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Free training for General Contractors and Subcontractors doing $500K-$5M who want to stop cash flow crises and finally understand their real job costs
+                </p>
+            </div>
+
+            <!-- Video Section -->
+            <div class="mb-12 md:mb-16 fade-in-up-delay-1">
+                <div class="video-container" id="videoContainer">
+                    <!-- Replace with your Vimeo or YouTube embed -->
+                    <!-- Example YouTube: <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="videoPlayer"></iframe> -->
+                    <!-- Example Vimeo: <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID?api=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen id="videoPlayer"></iframe> -->
+
+                    <!-- Placeholder Video - Replace with your actual embed -->
+                    <iframe
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&rel=0&modestbranding=1"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        id="videoPlayer"
+                    ></iframe>
+                </div>
+
+                <!-- Video Progress Message -->
+                <div id="videoProgressMessage" class="mt-4 text-center text-sm text-gray-500 hidden">
+                    <span class="inline-flex items-center">
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-orange-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Watch at least 50% of the video to unlock the special offer below
+                    </span>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-12 fade-in-up-delay-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900">
+                    Here's What You'll Discover In This Free Training:
+                </h2>
+
+                <div class="space-y-4 md:space-y-5 max-w-2xl mx-auto">
+                    <!-- Benefit 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="checkmark mt-1"></div>
+                        <p class="text-lg text-gray-700">
+                            <strong>The #1 cash flow mistake</strong> that keeps contractors broke even when they're landing big jobs (and the simple fix most CPAs never implement)
+                        </p>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="checkmark mt-1"></div>
+                        <p class="text-lg text-gray-700">
+                            <strong>Why your job costing is lying to you</strong> – and the 3 hidden costs that are silently destroying your profit margins
+                        </p>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="flex items-start gap-4">
+                        <div class="checkmark mt-1"></div>
+                        <p class="text-lg text-gray-700">
+                            <strong>The "CFO Dashboard Method"</strong> – how to know your real financial position in under 5 minutes (instead of waiting weeks for your bookkeeper)
+                        </p>
+                    </div>
+
+                    <!-- Benefit 4 -->
+                    <div class="flex items-start gap-4">
+                        <div class="checkmark mt-1"></div>
+                        <p class="text-lg text-gray-700">
+                            <strong>How to stop the "feast or famine" cycle</strong> and build predictable cash flow – even in seasonal construction markets
+                        </p>
+                    </div>
+
+                    <!-- Benefit 5 -->
+                    <div class="flex items-start gap-4">
+                        <div class="checkmark mt-1"></div>
+                        <p class="text-lg text-gray-700">
+                            <strong>The exact financial system</strong> that helped 500+ contractors go from "guessing" to confidently knowing their numbers every single week
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="text-center mb-12 fade-in-up-delay-3">
+                <!-- Primary CTA Button -->
+                <button
+                    id="ctaButton"
+                    onclick="handleCTAClick()"
+                    disabled
+                    class="cta-button cta-pulse bg-orange-600 hover:bg-orange-700 text-white font-bold text-xl px-12 py-5 rounded-lg shadow-xl mb-6 inline-flex items-center justify-center"
+                >
+                    <span id="ctaLockIcon" class="lock-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </span>
+                    <span id="ctaButtonText">Book Your Free Financial Review</span>
+                </button>
+
+                <!-- Secondary CTA -->
+                <div class="mb-8">
+                    <a href="#" onclick="handleSecondaryCTA(); return false;" class="text-blue-600 hover:text-blue-800 font-semibold text-lg underline">
+                        Or Download the Free PDF Guide
+                    </a>
+                </div>
+
+                <!-- Trust Signals -->
+                <div class="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-gray-600 text-sm md:text-base">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-semibold">CPA Licensed</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-semibold">20+ Years Experience</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                        </svg>
+                        <span class="font-semibold">500+ Contractors Helped</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Proof / Testimonial Teaser (Optional) -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 text-center">
+                <p class="text-gray-700 italic text-lg mb-4">
+                    "This training completely changed how I look at my business financials. Within 60 days, we had better cash flow than we've had in 5 years."
+                </p>
+                <p class="font-semibold text-gray-900">
+                    — Mike Rodriguez, General Contractor, Houston TX
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Exit Intent Popup -->
+    <div class="exit-popup" id="exitPopup">
+        <div class="exit-popup-content">
+            <span class="exit-popup-close" onclick="closeExitPopup()">&times;</span>
+            <h3 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900">Wait! Don't Miss This...</h3>
+            <p class="text-lg text-gray-700 mb-6">
+                Before you go, make sure you've watched the complete training and grabbed your free financial review. This could be the breakthrough your construction business needs.
+            </p>
+            <button
+                onclick="closeExitPopup(); scrollToVideo();"
+                class="bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-8 py-4 rounded-lg w-full"
+            >
+                Yes, Take Me Back to the Video
+            </button>
+            <button
+                onclick="closeExitPopup();"
+                class="mt-3 text-gray-500 hover:text-gray-700 text-sm w-full"
+            >
+                No thanks, I'll pass on this opportunity
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Video Progress Tracking
+        let videoWatchedPercent = 0;
+        let ctaUnlocked = false;
+        const UNLOCK_THRESHOLD = 50; // Unlock CTA after 50% watched
+
+        // Exit Intent Detection
+        let exitIntentShown = false;
+
+        document.addEventListener('mouseleave', function(e) {
+            if (e.clientY < 50 && !exitIntentShown && !ctaUnlocked) {
+                showExitPopup();
+            }
+        });
+
+        function showExitPopup() {
+            exitIntentShown = true;
+            document.getElementById('exitPopup').classList.add('show');
+        }
+
+        function closeExitPopup() {
+            document.getElementById('exitPopup').classList.remove('show');
+        }
+
+        function scrollToVideo() {
+            document.getElementById('videoContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Simulate video progress tracking
+        // For YouTube API integration, you would use the YouTube IFrame API
+        // For Vimeo API integration, you would use the Vimeo Player API
+
+        // YouTube API Example (uncomment and configure when you add your video):
+        /*
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('videoPlayer', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+
+            // Track progress
+            setInterval(function() {
+                if (player && player.getCurrentTime) {
+                    var currentTime = player.getCurrentTime();
+                    var duration = player.getDuration();
+                    if (duration > 0) {
+                        videoWatchedPercent = (currentTime / duration) * 100;
+                        updateProgressBar(videoWatchedPercent);
+                        checkUnlockCTA(videoWatchedPercent);
+                    }
+                }
+            }, 1000);
+        }
+
+        function onPlayerStateChange(event) {
+            // Handle player state changes if needed
+        }
+        */
+
+        // Vimeo API Example (uncomment and configure when you add your video):
+        /*
+        var iframe = document.getElementById('videoPlayer');
+        var player = new Vimeo.Player(iframe);
+
+        player.on('timeupdate', function(data) {
+            videoWatchedPercent = data.percent * 100;
+            updateProgressBar(videoWatchedPercent);
+            checkUnlockCTA(videoWatchedPercent);
+        });
+        */
+
+        // For demo purposes, simulate video progress
+        // Remove this when you implement real video tracking
+        let simulatedProgress = 0;
+        const simulateVideoProgress = setInterval(function() {
+            simulatedProgress += 1;
+            if (simulatedProgress <= 100) {
+                videoWatchedPercent = simulatedProgress;
+                updateProgressBar(videoWatchedPercent);
+                checkUnlockCTA(videoWatchedPercent);
+            } else {
+                clearInterval(simulateVideoProgress);
+            }
+        }, 500); // Simulates reaching 100% in 50 seconds
+
+        function updateProgressBar(percent) {
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function checkUnlockCTA(percent) {
+            if (percent >= UNLOCK_THRESHOLD && !ctaUnlocked) {
+                unlockCTA();
+            }
+        }
+
+        function unlockCTA() {
+            ctaUnlocked = true;
+            const ctaButton = document.getElementById('ctaButton');
+            const ctaLockIcon = document.getElementById('ctaLockIcon');
+            const ctaButtonText = document.getElementById('ctaButtonText');
+            const videoProgressMessage = document.getElementById('videoProgressMessage');
+
+            // Remove disabled state
+            ctaButton.disabled = false;
+            ctaButton.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Hide lock icon
+            ctaLockIcon.classList.add('hidden');
+
+            // Update button text
+            ctaButtonText.textContent = '🎉 Book Your Free Financial Review (Unlocked!)';
+
+            // Hide progress message
+            videoProgressMessage.classList.add('hidden');
+
+            // Add celebration effect
+            ctaButton.classList.add('cta-pulse');
+
+            // Scroll to CTA (optional)
+            setTimeout(function() {
+                ctaButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+
+        // Show video progress message initially
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('videoProgressMessage').classList.remove('hidden');
+            }, 3000);
+        });
+
+        // CTA Click Handler
+        function handleCTAClick() {
+            if (!ctaUnlocked) {
+                alert('Please watch at least 50% of the video to unlock this special offer!');
+                scrollToVideo();
+                return;
+            }
+
+            // Replace with your actual booking link or form
+            window.location.href = 'https://calendly.com/your-booking-link';
+
+            // Or open in new tab:
+            // window.open('https://calendly.com/your-booking-link', '_blank');
+
+            // Or show a form modal, etc.
+        }
+
+        // Secondary CTA Handler
+        function handleSecondaryCTA() {
+            // Replace with your PDF download link
+            window.open('https://yourwebsite.com/path-to-pdf-guide.pdf', '_blank');
+
+            // Or trigger a download:
+            // window.location.href = 'path-to-pdf-guide.pdf';
+        }
+
+        // Analytics Tracking (Add your tracking pixels here)
+        // Example: Facebook Pixel, Google Analytics, etc.
+
+        // Facebook Pixel Example:
+        /*
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+        */
+
+        // Google Analytics Example:
+        /*
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'YOUR_GA_ID');
+        */
+
+        // Track video milestones
+        let milestones = {
+            25: false,
+            50: false,
+            75: false,
+            100: false
+        };
+
+        function trackVideoMilestone(percent) {
+            if (percent >= 25 && !milestones[25]) {
+                milestones[25] = true;
+                console.log('Video 25% watched');
+                // gtag('event', 'video_progress', { 'percent': 25 });
+            }
+            if (percent >= 50 && !milestones[50]) {
+                milestones[50] = true;
+                console.log('Video 50% watched');
+                // gtag('event', 'video_progress', { 'percent': 50 });
+            }
+            if (percent >= 75 && !milestones[75]) {
+                milestones[75] = true;
+                console.log('Video 75% watched');
+                // gtag('event', 'video_progress', { 'percent': 75 });
+            }
+            if (percent >= 100 && !milestones[100]) {
+                milestones[100] = true;
+                console.log('Video 100% watched');
+                // gtag('event', 'video_complete', {});
+            }
+        }
+
+        // Update milestone tracking
+        setInterval(function() {
+            trackVideoMilestone(videoWatchedPercent);
+        }, 1000);
+
+    </script>
+</body>
+</html>
